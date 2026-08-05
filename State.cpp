@@ -9,6 +9,7 @@ bool isSleeping = false;
 bool menuOpen = false;
 float cpuValue = 0.0f;
 float gpuValue = 0.0f;
+bool hasSensorData = false;
 DateTime currentTime = {2026, 1, 1, 0, 0, 0};
 bool timeSet = false;
 

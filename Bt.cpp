@@ -12,6 +12,8 @@
 #include <BLE2902.h>
 
 const String DEVICE_NAME = "LAPTOP-FAN";
+// 经典蓝牙串口（COM 模式）设备名加 -COM 后缀，便于与 BLE 设备区分
+const String DEVICE_NAME_COM = "LAPTOP-FAN-COM";
 
 // Nordic UART Service（与上位机约定）
 #define NUS_SERVICE_UUID "6e400001-b5a3-f393-e0a9-e50e24dcca9e"
@@ -29,6 +31,10 @@ bool bleConnected = false;
 unsigned long lastBleDataTime = 0;
 bool autoVisible = false;
 const unsigned long BLE_AUTO_VISIBLE_TIMEOUT_MS = 10000;
+
+// 最近收到上位机数据的时间（断连/无数据判定：超时后界面显示 "--"、转速归 0）
+unsigned long lastDataMillis = 0;
+const unsigned long Bt_DATA_ACTIVE_MS = 5000;
 
 // 非阻塞按行接收缓冲：readStringUntil 会阻塞等待换行符（最长 1s），
 // 主循环被卡住后时间按 millis 派生会在恢复时一次跳过两秒。
@@ -83,7 +89,7 @@ void Bt_Init()
 {
   if (btMode == BT_MODE_COM)
   {
-    SerialBT.begin(DEVICE_NAME.c_str());
+    SerialBT.begin(DEVICE_NAME_COM.c_str());
     Bt_ApplyVisibility();
     LOG_INFO("Bluetooth COM started: %s", DEVICE_NAME.c_str());
   }
@@ -215,6 +221,7 @@ void Bt_Loop()
 void Bt_HandleLine(const String& line, bool fromUsb)
 {
   LOG_DEBUG("RX: %s", line.c_str());
+  lastDataMillis = millis();
 
   if (btMode == BT_MODE_BLE && !fromUsb)
   {
@@ -235,6 +242,7 @@ void Bt_HandleLine(const String& line, bool fromUsb)
     {
       Fan_SetDuty(value);
     }
+    hasSensorData = true;
   }
   else if (line.startsWith("TIME:"))
   {
@@ -281,11 +289,19 @@ void Bt_HandleLine(const String& line, bool fromUsb)
   else if (line.startsWith("CPU"))
   {
     cpuValue = line.substring(3).toFloat();
+    hasSensorData = true;
   }
   else if (line.startsWith("GPU"))
   {
     gpuValue = line.substring(3).toFloat();
+    hasSensorData = true;
   }
+}
+
+// 最近 5 秒内是否收到上位机数据（USB 串口 / 经典蓝牙 / BLE 任一通道均可）
+bool Bt_IsDataActive()
+{
+  return (millis() - lastDataMillis) < Bt_DATA_ACTIVE_MS;
 }
 
 bool Bt_IsConnected()

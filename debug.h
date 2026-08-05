@@ -1,8 +1,9 @@
 #pragma once
 #include <Arduino.h>
 
+// 关闭 USB 串口调试日志（LOG_* 全部编译为空实现），USB 串口仅保留数据通道
 #ifndef DEBUG_ENABLED
-#define DEBUG_ENABLED 1
+#define DEBUG_ENABLED 0
 #endif
 
 #if DEBUG_ENABLED

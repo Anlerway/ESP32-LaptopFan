@@ -4,6 +4,7 @@
 #include "Storage.h"
 #include "Bt.h"
 #include "Menu.h"
+#include "FanControl.h"
 #include "Icons.h"
 #include "Fonts.cpp"
 #include "Display.h"
@@ -150,6 +151,7 @@ static uint8_t Display_CharToFontIdx(char c)
     case 'M': return FONT_IDX_M;
     case 'N': return FONT_IDX_N;
     case 'L': return FONT_IDX_L;
+    case '-': return FONT_IDX_MINUS;
   }
   return FONT_IDX_0;
 }
@@ -267,26 +269,48 @@ void Display_Loop(unsigned long now)
     char buf[12];
     int n;
 
+    // 断连/无数据：温度转速显示 "--"，实际转速归 0
+    bool dataActive = hasSensorData && Bt_IsDataActive();
+    if (!dataActive && dutyCycle != 0)
+    {
+      Fan_SetDuty(0);
+    }
+    uint8_t dash[2] = {FONT_IDX_MINUS, FONT_IDX_MINUS};
+
     // 图标 (17,0)，文字起点 (21,23)
     Display_DrawIcon22(ICON_CPU, 0, 17);
-    n = snprintf(buf, sizeof(buf), "%.1f", cpuValue);
-    for (int i = 0; i < n; i++)
+    if (dataActive)
     {
-      idx[i] = Display_CharToFontIdx(buf[i]);
+      n = snprintf(buf, sizeof(buf), "%.1f", cpuValue);
+      for (int i = 0; i < n; i++)
+      {
+        idx[i] = Display_CharToFontIdx(buf[i]);
+      }
+      idx[n++] = FONT_IDX_DEG;
+      Display_DrawText14(23, 21, idx, n);
     }
-    idx[n++] = FONT_IDX_DEG;
-    Display_DrawText14(23, 21, idx, n);
+    else
+    {
+      Display_DrawText14(23, 21, dash, 2);
+    }
 
     // 右上：GPU 温度
     // 图标 (17,65)，文字起点 (21,87)
     Display_DrawIcon22(ICON_GPU, 65, 17);
-    n = snprintf(buf, sizeof(buf), "%.1f", gpuValue);
-    for (int i = 0; i < n; i++)
+    if (dataActive)
     {
-      idx[i] = Display_CharToFontIdx(buf[i]);
+      n = snprintf(buf, sizeof(buf), "%.1f", gpuValue);
+      for (int i = 0; i < n; i++)
+      {
+        idx[i] = Display_CharToFontIdx(buf[i]);
+      }
+      idx[n++] = FONT_IDX_DEG;
+      Display_DrawText14(87, 21, idx, n);
     }
-    idx[n++] = FONT_IDX_DEG;
-    Display_DrawText14(87, 21, idx, n);
+    else
+    {
+      Display_DrawText14(87, 21, dash, 2);
+    }
 
     // 左下：模式
     // 图标 (41,0)，文字起点 (45,23)
@@ -302,13 +326,20 @@ void Display_Loop(unsigned long now)
     // 右下：转速比（PWM %）
     // 图标 (41,65)，文字起点 (45,87)
     Display_DrawIcon22(ICON_FAN, 65, 41);
-    n = snprintf(buf, sizeof(buf), "%d", dutyCycle);
-    for (int i = 0; i < n; i++)
+    if (dataActive)
     {
-      idx[i] = Display_CharToFontIdx(buf[i]);
+      n = snprintf(buf, sizeof(buf), "%d", dutyCycle);
+      for (int i = 0; i < n; i++)
+      {
+        idx[i] = Display_CharToFontIdx(buf[i]);
+      }
+      idx[n++] = FONT_IDX_PERC;
+      Display_DrawText14(87, 45, idx, n);
     }
-    idx[n++] = FONT_IDX_PERC;
-    Display_DrawText14(87, 45, idx, n);
+    else
+    {
+      Display_DrawText14(87, 45, dash, 2);
+    }
   }
 
   display.display();

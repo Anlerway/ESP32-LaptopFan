@@ -8,6 +8,7 @@ extern bool isSleeping;
 extern bool menuOpen;
 extern float cpuValue;
 extern float gpuValue;
+extern bool hasSensorData; // 是否收到过上位机温度/转速数据（无数据时界面显示 "--"）
 
 struct DateTime
 {

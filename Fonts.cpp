@@ -25,6 +25,7 @@
 #define FONT_IDX_N     18
 #define FONT_IDX_U2    19   // 第二个 U（与索引14相同图形）
 #define FONT_IDX_L     20
+#define FONT_IDX_MINUS 21   // '-'（断连/无数据显示 "--" 用）
 
 // ==================== 字符数据大小 ====================
 #define FONT_7X14_SIZE    14   // 7×14 字符的字节数
@@ -122,9 +123,13 @@ const unsigned char fontData19[FONT_7X14_SIZE] PROGMEM = {
 const unsigned char fontData20[FONT_7X14_SIZE] PROGMEM = {
   0x00,0x04,0x04,0xFC,0x04,0x04,0x00,0x00,0x04,0x04,0x07,0x04,0x04,0x04
 };
+// 索引21 : '-'（居中短横线）
+const unsigned char fontData21[FONT_7X14_SIZE] PROGMEM = {
+  0x00,0x18,0x18,0x18,0x18,0x18,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00
+};
 
 // ==================== 统一指针数组（按索引快速访问） ====================
-const unsigned char* const fontData[21] PROGMEM = {
+const unsigned char* const fontData[22] PROGMEM = {
   fontData0,  // 0
   fontData1,  // 1
   fontData2,  // 2
@@ -145,7 +150,8 @@ const unsigned char* const fontData[21] PROGMEM = {
   fontData17, // 17
   fontData18, // 18
   fontData19, // 19
-  fontData20  // 20
+  fontData20, // 20
+  fontData21  // 21 ('-')
 };
 
 #endif
