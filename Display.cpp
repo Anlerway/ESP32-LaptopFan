@@ -269,9 +269,9 @@ void Display_Loop(unsigned long now)
     char buf[12];
     int n;
 
-    // 断连/无数据：温度转速显示 "--"，实际转速归 0
+    // 断连/无数据：温度显示 "--"；自动模式下实际转速归 0，手动模式由按键控制不受影响
     bool dataActive = hasSensorData && Bt_IsDataActive();
-    if (!dataActive && dutyCycle != 0)
+    if (!dataActive && autoMode && dutyCycle != 0)
     {
       Fan_SetDuty(0);
     }
@@ -326,20 +326,13 @@ void Display_Loop(unsigned long now)
     // 右下：转速比（PWM %）
     // 图标 (41,65)，文字起点 (45,87)
     Display_DrawIcon22(ICON_FAN, 65, 41);
-    if (dataActive)
+    n = snprintf(buf, sizeof(buf), "%d", dutyCycle);
+    for (int i = 0; i < n; i++)
     {
-      n = snprintf(buf, sizeof(buf), "%d", dutyCycle);
-      for (int i = 0; i < n; i++)
-      {
-        idx[i] = Display_CharToFontIdx(buf[i]);
-      }
-      idx[n++] = FONT_IDX_PERC;
-      Display_DrawText14(87, 45, idx, n);
+      idx[i] = Display_CharToFontIdx(buf[i]);
     }
-    else
-    {
-      Display_DrawText14(87, 45, dash, 2);
-    }
+    idx[n++] = FONT_IDX_PERC;
+    Display_DrawText14(87, 45, idx, n);
   }
 
   display.display();
