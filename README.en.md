@@ -2,7 +2,7 @@
 
 [中文](README.md) | **English**
 
-> Firmware for the open-source hardware by UP主 [垃圾研究社](https://www.bilibili.com/video/BV1Lr421M7u2/), working with the host app [anlerways/Bluetooth-FanControl](https://github.com/anlerways/Bluetooth-FanControl) to form a complete laptop fan control solution.
+> Firmware for the open-source hardware by UP主 [垃圾研究社](https://www.bilibili.com/video/BV1Lr421M7u2/), working with the host app [anlerways/Bluetooth-FanControl](https://github.com/anlerway/Bluetooth-FanControl) to form a complete laptop fan control solution.
 
 ![ESP32](https://img.shields.io/badge/ESP32-SSD1306-orange) ![Arduino](https://img.shields.io/badge/Arduino-IDE-blue)
 
@@ -39,7 +39,7 @@
 
 ## Build & flash
 
-Source code: [anlerways/ESP32-LaptopFan](https://github.com/anlerways/ESP32-LaptopFan)
+Source code: [anlerways/ESP32-LaptopFan](https://github.com/anlerway/ESP32-LaptopFan)
 
 1. Open `LAPTOP_FAN.ino` in Arduino IDE;
 2. Tools → Board → `ESP32 Dev Module`, select the correct port;
@@ -47,7 +47,7 @@ Source code: [anlerways/ESP32-LaptopFan](https://github.com/anlerways/ESP32-Lapt
 
 Or flash the prebuilt artifacts directly (`build/esp32.esp32.esp32/`):
 
-Prebuilt artifacts: GitHub Releases (<https://github.com/anlerways/ESP32-LaptopFan/releases>)
+Prebuilt artifacts: GitHub Releases (<https://github.com/anlerway/ESP32-LaptopFan/releases>)
 
 ```
 esptool.py --chip esp32 --port COMx write_flash \
