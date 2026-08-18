@@ -2,7 +2,7 @@
 
 [English](README.en.md) | **中文**
 
-> 适配 UP 主[垃圾研究社](https://www.bilibili.com/video/BV1Lr421M7u2/)开源硬件的固件，配合上位机 [anlerways/Bluetooth-FanControl](https://github.com/anlerway/Bluetooth-FanControl) 使用，组成完整的笔记本风扇控制方案。
+> 适配 UP 主[垃圾研究社](https://www.bilibili.com/video/BV1Lr421M7u2/)开源硬件的固件，配合上位机 [anlerway/Bluetooth-FanControl](https://github.com/anlerway/Bluetooth-FanControl) 使用，组成完整的笔记本风扇控制方案。
 
 ![ESP32](https://img.shields.io/badge/ESP32-SSD1306-orange) ![Arduino](https://img.shields.io/badge/Arduino-IDE-blue)
 
@@ -39,7 +39,7 @@
 
 ## 编译烧录
 
-固件源码下载：[anlerways/ESP32-LaptopFan](https://github.com/anlerway/ESP32-LaptopFan)
+固件源码下载：[anlerway/ESP32-LaptopFan](https://github.com/anlerway/ESP32-LaptopFan)
 
 1. 用 Arduino IDE 打开 `LAPTOP_FAN.ino`；
 2. 工具 → 开发板选择 `ESP32 Dev Module`，端口选择对应串口；
