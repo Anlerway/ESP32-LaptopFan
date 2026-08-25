@@ -61,10 +61,10 @@
 
 ### 方式一：固件烧录（预编译 BIN 文件）
 
-1. 编译产物下载：GitHub Releases（<https://github.com/anlerway/ESP32-LaptopFan/releases>）并解压。
-2. 下载乐鑫官方烧录工具 [Flash Download Tool](https://docs.espressif.com/projects/esp-test-tools/zh_CN/latest/esp32/production_stage/tools/flash_download_tool.html)。
-3. 将 ESP32 开发板通过 USB 连接到电脑，确认设备管理器中识别到串口。
-4. 打开烧录工具，选择芯片型号 **ESP32**，加载解压出的 `.bin` 固件文件，配置烧录参数后点击开始烧录。
+1. 编译产物下载：[GitHub Releases](<https://github.com/anlerway/ESP32-LaptopFan/releases>)并解压。
+6. 下载乐鑫官方烧录工具 [Flash Download Tool](https://docs.espressif.com/projects/esp-test-tools/zh_CN/latest/esp32/production_stage/tools/flash_download_tool.html)。
+7. 将 ESP32 开发板通过 USB 连接到电脑，确认设备管理器中识别到串口。
+8. 打开烧录工具，选择芯片型号 **ESP32**，加载解压出的 `.bin` 固件文件，配置烧录参数后点击开始烧录。
 
 | 烧录地址 | 烧录固件 |
 | --- | --- |
@@ -74,7 +74,7 @@
 
 ### 方式二：源码编译烧录（Arduino IDE）
 
-1. 固件源码下载：[anlerway/ESP32-LaptopFan](https://github.com/anlerway/ESP32-LaptopFan)并解压。
+1. 固件源码下载：[GitHub Releases](<https://github.com/anlerway/ESP32-LaptopFan/releases>)并解压。并解压。
 2. 安装 **Arduino IDE 2.3.10**。
 3. 安装 ESP32 板包：在开发板管理器中搜索并安装 `esp32 by Espressif`（版本 **2.0.4**）。
 4. 安装依赖库：`Adafruit SSD1306`、`Adafruit GFX`。
