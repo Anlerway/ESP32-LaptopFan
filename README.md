@@ -21,6 +21,67 @@
 - **按键交互**：菜单 / 自动 / 手动 / 转速 ±，长按设置休眠；
 - 接收上位机 PWM / 温度 / 校时指令，响应 `STATUS?` 查询。
 
+## 硬件操作逻辑
+
+设备共有 **5 个按钮**（从左到右），分主页和菜单两种模式：
+
+### 主页模式（默认）
+
+| 按钮 | 功能 |
+| --- | --- |
+| 按钮1 | 转速减（支持长按连续调节） |
+| 按钮2 | 转速加（支持长按连续调节） |
+| 按钮3 | 切换至 **手动模式** |
+| 按钮4 | 切换至 **自动模式** |
+| 按钮5 | 长按 3 秒进入 **休眠**；休眠状态下再次点击 **唤醒** |
+
+### 菜单模式
+
+长按按钮5进入菜单模式后：
+
+| 按钮 | 功能 |
+| --- | --- |
+| 按钮1 | 调节减（支持长按连续调节） |
+| 按钮2 | 调节加（支持长按连续调节） |
+| 按钮3 | 上选择 |
+| 按钮4 | 下选择 |
+| 按钮5 | 退出菜单，返回主页 |
+
+
+## 菜单功能介绍
+
+| 菜单项 | 说明 |
+| --- | --- |
+| **BT Visible**（蓝牙可见性） | 配对成功后建议开启 **隐藏蓝牙**，防止其他用户配对连接，不影响已有连接和自动重连 |
+| **BT Mode**（连接模式） | 建议选择 **BLE** 模式，低功耗且无需手动选择串口 |
+| **Brightness**（屏幕亮度） | 调节 OLED 屏幕显示亮度 |
+| **Fan Freq**（PWM 频率） | 保持默认值即可；如遇风扇不转，可尝试调节此参数 |
+
+## 烧录指南
+
+### 方式一：固件烧录（预编译 BIN 文件）
+
+1. 编译产物下载：GitHub Releases（<https://github.com/anlerway/ESP32-LaptopFan/releases>）并解压。
+2. 下载乐鑫官方烧录工具 [Flash Download Tool](https://docs.espressif.com/projects/esp-test-tools/zh_CN/latest/esp32/production_stage/tools/flash_download_tool.html)。
+3. 将 ESP32 开发板通过 USB 连接到电脑，确认设备管理器中识别到串口。
+4. 打开烧录工具，选择芯片型号 **ESP32**，加载解压出的 `.bin` 固件文件，配置烧录参数后点击开始烧录。
+
+| 烧录地址 | 烧录固件 |
+| --- | --- |
+| 0x1000 | LAPTOP_FAN.ino.bootloader.bin |
+| 0x8000 | LAPTOP_FAN.ino.partitions.bin |
+| 0x10000 | LAPTOP_FAN.ino.bin |
+
+### 方式二：源码编译烧录（Arduino IDE）
+
+1. 固件源码下载：[anlerway/ESP32-LaptopFan](https://github.com/anlerway/ESP32-LaptopFan)并解压。
+2. 安装 **Arduino IDE 2.3.10**。
+3. 安装 ESP32 板包：在开发板管理器中搜索并安装 `esp32 by Espressif`（版本 **2.0.4**）。
+4. 安装依赖库：`Adafruit SSD1306`、`Adafruit GFX`。
+5. 用 Arduino IDE 打开 `LAPTOP_FAN.ino`；
+6. 开发板设置：选择 **ESP32 Dev Module**（4MB Flash，默认分区），端口选择对应串口。
+7. 点击上传即可编译并烧录。
+
 ## 硬件接线（config.h）
 
 | 定义 | 引脚 | 功能 |
@@ -29,32 +90,6 @@
 | `PIN_RELAY` | 19 | 继电器 |
 | `PIN_BTN1` ~ `PIN_BTN5` | 12 / 13 / 14 / 15 / 16 | 菜单 / 自动 / 手动 / 转速+ / 转速- |
 | OLED | I2C 地址 `0x3C` | SSD1306 128×64 |
-
-## 环境配置
-
-- Arduino IDE 2.3.10；
-- ESP32 板包：`esp32 by Espressif`（2.0.4）；
-- 依赖库：`Adafruit SSD1306`、`Adafruit GFX`；
-- 开发板设置：`ESP32 Dev Module`（4MB Flash，默认分区）。
-
-## 编译烧录
-
-固件源码下载：[anlerway/ESP32-LaptopFan](https://github.com/anlerway/ESP32-LaptopFan)
-
-1. 用 Arduino IDE 打开 `LAPTOP_FAN.ino`；
-2. 工具 → 开发板选择 `ESP32 Dev Module`，端口选择对应串口；
-3. 点击上传（烧录）即可。
-
-也可以直接烧录编译产物（`build/esp32.esp32.esp32/`）：
-
-编译产物下载：GitHub Releases（<https://github.com/anlerway/ESP32-LaptopFan/releases>）
-
-```
-esptool.py --chip esp32 --port COMx write_flash \
-  0x1000  LAPTOP_FAN.ino.bootloader.bin \
-  0x8000  LAPTOP_FAN.ino.partitions.bin \
-  0x10000 LAPTOP_FAN.ino.bin
-```
 
 ## 通信协议
 
