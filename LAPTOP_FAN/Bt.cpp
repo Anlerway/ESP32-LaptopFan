@@ -11,9 +11,10 @@
 #include <BLEUtils.h>
 #include <BLE2902.h>
 
-const String DEVICE_NAME = "LAPTOP-FAN";
+// 设备名来自 config.h（BT_DEVICE_NAME，可用 -D 覆盖）
+const String DEVICE_NAME = BT_DEVICE_NAME;
 // 经典蓝牙串口（COM 模式）设备名加 -COM 后缀，便于与 BLE 设备区分
-const String DEVICE_NAME_COM = "LAPTOP-FAN-COM";
+const String DEVICE_NAME_COM = BT_DEVICE_NAME_COM;
 
 // Nordic UART Service（与上位机约定）
 #define NUS_SERVICE_UUID "6e400001-b5a3-f393-e0a9-e50e24dcca9e"

@@ -1,0 +1,44 @@
+FanControl 固件烧录器  2.0.0
+==========================
+
+目录结构（请整个文件夹一起拷贝，不要只拿 exe）
+  FanControl-Flasher.exe   主程序
+  tools\esptool.exe        真正执行烧录的官方工具，主程序会调用它
+  firmware\                三个固件镜像：bootloader.bin / partitions.bin / app.bin
+  drivers\                 串口芯片驱动：ch34x / ch9102 / cp210x / ftdi / pl2303
+  使用说明.txt             本文件
+
+使用步骤
+  1. 双击 FanControl-Flasher.exe。程序默认以管理员权限运行，会先弹一个 UAC
+     确认框，点「是」即可。不需要安装，也不需要 .NET / Python。
+  2. 用 USB 线把 ESP32 板子插到电脑上。
+  3. 在「设备」里选中出现的串口（形如 COM5）。如果插了板子却没有串口，
+     说明缺驱动：程序会提示芯片型号，点「安装串口驱动」即可（会弹 UAC）。
+  4. 在「蓝牙名称」里填名字（最多 24 个字节，中文一个字算 3 字节）。
+     烧录后蓝牙名就是它，配套的第二个名字是「<名字>-COM」。
+  5. 点「开始烧录」，等进度跑完、日志出现 Hash of data verified 即成功。
+  6. 右上角的「中文 / English」用来切换界面语言，选择会记住，下次打开沿用。
+
+说明
+  - 只改蓝牙名称，不改风扇逻辑；蓝牙模式（COM/BLE）和蓝牙可见性仍要在
+    设备菜单里用按键设置，配置会存进 NVS。
+  - firmware 里的镜像是按固定长度占位名编译的，烧录时程序会在镜像里等长
+    覆盖名字并重算镜像校验和与 SHA-256，所以不需要重新编译固件。
+  - 想换固件：把新的三个 bin 覆盖到 firmware\ 即可（占位名必须仍是
+    FAN-NAME-PLACEHOLDER-XXX，见 LAPTOP_FAN/config.h 的 BT_DEVICE_NAME）。
+  - 驱动文件夹里的 INF/SYS/CAT 是厂商原版文件，安装时会复制到系统驱动库；
+    卸载可在「设备管理器 → 端口」里右键设备选择卸载并删除驱动。
+
+驱动来源（drivers\ 里都是厂商原版文件，目录名对应芯片）
+  ch34x   CH341SER.INF    WCH 3.9.2024.09   CH340 / CH340K / CH341
+  ch9102  CH343SER.INF    WCH 2.2.2026.05   CH342 / CH343 / CH9101 / CH9102
+  cp210x  silabser.inf    Silicon Labs 11.2.0.167  CP2102 / CP2105 / CP2108
+  ftdi    ftdibus.inf / ftdiport.inf   FTDI 2.12.36.20  FT232R / FT2232 / FT231X 等
+  pl2303  ser2pl.inf (3.8.38.2) + plser.inf (5.1.11.0)  PL2303 全系列（两个 INF 缺一不可）
+  所有 .cat 均为微软 WHQL 签名（Microsoft Windows Hardware Compatibility Publisher）。
+  板子用的是 ESP32-S3/C3 原生 USB 时由系统自带 usbser 驱动，不需要装上面任何东西。
+
+开源地址
+  程序右上角有「开源地址」链接，点一下会在浏览器里打开
+  https://github.com/Anlerway/ESP32-LaptopFan
+  源码、固件、协议说明和更新记录都在里面；想自己重编固件或改界面就看 flasher/README.md。

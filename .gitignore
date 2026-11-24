@@ -1,0 +1,20 @@
+# 构建产物
+build/
+out/
+bin/
+obj/
+
+# 临时/本地目录
+.tmp/
+.shots/
+
+# 系统垃圾
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+LAPTOP_FAN/build/

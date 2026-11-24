@@ -1,0 +1,20 @@
+# 构建产物
+build/
+out/
+*.obj
+*.pdb
+*.ilk
+
+# 临时/本地目录
+.tmp/
+.shots/
+
+# 驱动原始压缩包（约 25 MB，来源见 drivers/SOURCES.md）
+drivers/_raw/
+
+# 7.6 MB 的官方烧录工具，按 README 自制或下载后放到 tools/
+tools/esptool.exe
+
+# 系统垃圾
+.DS_Store
+Thumbs.db

@@ -45,6 +45,16 @@
 #define BT_MODE_COM      0
 #define BT_MODE_BLE      1
 
+// 设备名：BLE 与经典蓝牙共用前缀，COM 模式自动加 -COM 后缀。
+// 可在编译期覆盖（烧录器用），例如：
+//   arduino-cli compile ... --build-property compiler.cpp.extra_flags=-DBT_DEVICE_NAME=\"MY-FAN\"
+#ifndef BT_DEVICE_NAME
+#define BT_DEVICE_NAME "LAPTOP-FAN"
+#endif
+#ifndef BT_DEVICE_NAME_COM
+#define BT_DEVICE_NAME_COM BT_DEVICE_NAME "-COM"
+#endif
+
 // ===================== 其他 =====================
 #define DISPLAY_REFRESH_MS 500
 #define SAVE_DELAY_MS      60000

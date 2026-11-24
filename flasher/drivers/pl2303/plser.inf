@@ -1,0 +1,191 @@
+;   Prolific PL2303G VCP / PL232X CDC Series
+
+;   plser.INF (for Win7 / Win8 / Win8.1 / Win10)
+
+;   Copyright (c) 2018, Prolific Technology Inc.
+
+
+[version]
+signature="$CHICAGO$"
+Class=Ports
+ClassGuid={4D36E978-E325-11CE-BFC1-08002BE10318}
+Provider=%PRO%
+DriverVer=01/21/2026,5.1.11.0
+PnpLockdown=1
+CatalogFile=plser.cat
+
+; ================= Device Install section =====================
+
+[ControlFlags]
+ExcludeFromSelect=*
+
+[Manufacturer]
+%PRO%=PRO,NTx86,NTAMD64
+
+[SourceDisksFiles]
+plser.sys=1
+plser64.sys=1
+plser.dll=1
+plser64.dll=1
+
+[SourceDisksNames]
+1=%DISK_NAME%,
+
+[DestinationDirs] 
+DefaultDestDir  = 12
+CopyFilesx86 = 11
+CopyFilesx64 = 11
+
+[PRO.NTx86]
+%DeviceDesc1% = ComPort, USB\VID_067B&PID_23B3
+%DeviceDesc2% = ComPort, USB\VID_067B&PID_23C3
+%DeviceDesc3% = ComPort, USB\VID_067B&PID_23D3
+%DeviceDesc4% = ComPort, USB\VID_067B&PID_23E3
+%DeviceDesc5% = ComPort, USB\VID_067B&PID_23F3
+%DeviceDesc6% = ComPort, USB\VID_067B&PID_2323
+%DeviceDesc7% = ComPort, USB\VID_067B&PID_23A3&REV_0805
+%DeviceDesc8% = ComPort, USB\VID_067B&PID_23A3&REV_0705
+%DeviceDesc9% = ComPort, USB\VID_067B&PID_23A3&REV_0605
+%DeviceDesc10% = ComPort, USB\VID_067B&PID_23A3&REV_0505
+%DeviceDesc11% = ComPort, USB\VID_067B&PID_23A3&REV_0405
+%DeviceDesc12% = ComPort, USB\VID_067B&PID_23A3&REV_0305
+%DeviceDesc13% = ComPort, USB\VID_067B&PID_23A3&REV_0105
+%DeviceDesc14% = ComPort, USB\VID_067B&PID_23A3&REV_0100
+%DeviceDesc15% = ComPort, USB\VID_067B&PID_23A3&REV_0700
+%DeviceDesc16% = ComPort, USB\VID_067B&PID_23A3
+%DeviceDesc17% = ComPort, USB\VID_067B&PID_FFFF
+%DeviceDesc18% = ComPort, USB\VID_067B&PID_2320
+%DeviceDesc19% = ComPort, USB\VID_067B&PID_2321&MI_00
+%DeviceDesc20% = ComPort, USB\VID_067B&PID_2322
+%DeviceDesc21% = ComPort, USB\VID_067B&PID_23A3&REV_0905
+%DeviceDesc22% = ComPort, USB\VID_067B&PID_23A3&REV_1005
+%DeviceDesc23% = ComPort, USB\VID_067B&PID_23A3&REV_1105
+%DeviceDesc24% = ComPort, USB\VID_067B&PID_23A3&REV_1205
+
+
+[PRO.NTAMD64]
+%DeviceDesc1% = ComPort, USB\VID_067B&PID_23B3
+%DeviceDesc2% = ComPort, USB\VID_067B&PID_23C3
+%DeviceDesc3% = ComPort, USB\VID_067B&PID_23D3
+%DeviceDesc4% = ComPort, USB\VID_067B&PID_23E3
+%DeviceDesc5% = ComPort, USB\VID_067B&PID_23F3
+%DeviceDesc6% = ComPort, USB\VID_067B&PID_2323
+%DeviceDesc7% = ComPort, USB\VID_067B&PID_23A3&REV_0805
+%DeviceDesc8% = ComPort, USB\VID_067B&PID_23A3&REV_0705
+%DeviceDesc9% = ComPort, USB\VID_067B&PID_23A3&REV_0605
+%DeviceDesc10% = ComPort, USB\VID_067B&PID_23A3&REV_0505
+%DeviceDesc11% = ComPort, USB\VID_067B&PID_23A3&REV_0405
+%DeviceDesc12% = ComPort, USB\VID_067B&PID_23A3&REV_0305
+%DeviceDesc13% = ComPort, USB\VID_067B&PID_23A3&REV_0105
+%DeviceDesc14% = ComPort, USB\VID_067B&PID_23A3&REV_0100
+%DeviceDesc15% = ComPort, USB\VID_067B&PID_23A3&REV_0700
+%DeviceDesc16% = ComPort, USB\VID_067B&PID_23A3
+%DeviceDesc17% = ComPort, USB\VID_067B&PID_FFFF
+%DeviceDesc18% = ComPort, USB\VID_067B&PID_2320
+%DeviceDesc19% = ComPort, USB\VID_067B&PID_2321&MI_00
+%DeviceDesc20% = ComPort, USB\VID_067B&PID_2322
+%DeviceDesc21% = ComPort, USB\VID_067B&PID_23A3&REV_0905
+%DeviceDesc22% = ComPort, USB\VID_067B&PID_23A3&REV_1005
+%DeviceDesc23% = ComPort, USB\VID_067B&PID_23A3&REV_1105
+%DeviceDesc24% = ComPort, USB\VID_067B&PID_23A3&REV_1205
+
+
+[ComPort.NTx86]
+CopyFiles=ComPort.NTx86.Copy
+CopyFiles=CopyFilesx86
+AddReg=ComPort.NTx86.AddReg
+
+[ComPort.NTx86.HW]
+AddReg=ComPort.HW.AddReg
+
+[ComPort.NTx86.Services]
+AddService = plserx86, 0x00000002, Serial_Service_Inst.NTx86
+
+[ComPort.NTx86.Copy]
+plser.sys
+
+[CopyFilesx86]
+plser.dll
+
+[ComPort.NTx86.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,plser.sys
+HKR,,EnumPropPages32,,"plser.dll,SerialPortPropPageProvider"
+HKR,,PortSubClass,1,01
+
+[ComPort.HW.AddReg]
+HKR,,"UpperFilters",0x00010000,"serenum"
+HKR,,"PL2303C1",0x00010001,10
+HKR,,"PL2303C2",0x00010001,0
+HKR,,"PL2303C3",0x00010001,4096
+
+[ComPort.NTAMD64]
+CopyFiles=ComPort.NTAMD64.Copy
+CopyFiles=CopyFilesx64
+AddReg=ComPort.NTAMD64.AddReg
+
+[ComPort.NTAMD64.HW]
+AddReg=ComPort.HW.AddReg
+
+[ComPort.NTAMD64.Services]
+AddService = plser, 0x00000002, Serial_Service_Inst.NTAMD64
+
+[ComPort.NTAMD64.Copy]
+plser64.sys
+
+[CopyFilesx64]
+plser64.dll
+
+[ComPort.NTAMD64.AddReg]
+HKR,,DevLoader,,*ntkern
+HKR,,NTMPDriver,,plser64.sys
+HKR,,NTMPDriver,,serenum.sys
+HKR,,EnumPropPages32,,"plser64.dll,SerialPortPropPageProvider"
+HKR,,PortSubClass,1,01
+
+[Serial_Service_Inst.NTx86]
+DisplayName    = %Serial.SVCDESC%                            
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\plser.sys                            
+LoadOrderGroup = Base
+
+[Serial_Service_Inst.NTAMD64]
+DisplayName    = %Serial.SVCDESC%                            
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\plser64.sys                            
+LoadOrderGroup = Base
+
+
+[Strings]
+PRO = "Prolific"
+DeviceDesc1 = "Prolific PL2303GB USB Serial COM Port"
+DeviceDesc2 = "Prolific PL2303GT USB Serial COM Port"
+DeviceDesc3 = "Prolific PL2303GL USB Serial COM Port"
+DeviceDesc4 = "Prolific PL2303GE USB Serial COM Port"
+DeviceDesc5 = "Prolific PL2303GS USB Serial COM Port"
+DeviceDesc6 = "Prolific PL2303GD USB Serial COM Port"
+DeviceDesc7 = "Prolific PL2303GD USB Serial COM Port"
+DeviceDesc8 = "Prolific PL2303GR USB Serial COM Port"
+DeviceDesc9 = "Prolific PL2303GS USB Serial COM Port"
+DeviceDesc10 = "Prolific PL2303GE USB Serial COM Port"
+DeviceDesc11 = "Prolific PL2303GL USB Serial COM Port"
+DeviceDesc12 = "Prolific PL2303GT USB Serial COM Port"
+DeviceDesc13 = "Prolific PL2303GC USB Serial COM Port"
+DeviceDesc14 = "Prolific PL2303GC USB Serial COM Port"
+DeviceDesc15 = "Prolific PL2303GD USB Serial COM Port"
+DeviceDesc16 = "Prolific PL2303GC USB Serial COM Port"
+DeviceDesc17 = "Prolific PL2303FF USB Serial COM Port"
+DeviceDesc18 = "Prolific PL2320 USB CDC Serial Port"
+DeviceDesc19 = "Prolific PL2321 USB CDC Serial Port"
+DeviceDesc20 = "Prolific PL2322 USB CDC Serial Port"
+DeviceDesc21 = "Prolific PL2303GT USB Serial COM Port"
+DeviceDesc22 = "Prolific PL2303GC USB Serial COM Port"
+DeviceDesc23 = "Prolific PL2303G USB Serial COM Port"
+DeviceDesc24 = "Prolific PL2303G USB Serial COM Port"
+
+Serial.SVCDESC  = "Prolific PLSER Serial Port WDF Driver"
+DISK_NAME = "USB-Serial Cable Diskette"

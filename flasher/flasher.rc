@@ -1,0 +1,9 @@
+// 资源：图标 + 清单 + 版本信息。固件、驱动、esptool 都放在 exe 旁边的文件夹里，不进 exe。
+#include "build\\version.h"
+
+#define FC_FILENAME "FanControl-Flasher.exe"
+#define FC_DESCRIPTION "FanControl Firmware Flasher"
+#include "version.inc"
+
+101 ICON "assets\\app.ico"
+1 24 "app.manifest"
